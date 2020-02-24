@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 setup(name="aurproxy",
-      version="20200222.0",
+      version="20200224",
       packages=find_packages(),
       install_requires=[
           'azure==4.0.0', 
