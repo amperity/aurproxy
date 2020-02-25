@@ -17,13 +17,13 @@ import copy
 import logging
 import importlib
 import shutil
-import subprocess
 import unicodedata
 from hashlib import md5
 from collections import namedtuple
 
 import gevent
 import gevent.event
+from gevent import subprocess
 from raven import Client
 from raven.conf import setup_logging
 from raven.handlers.logging import SentryHandler
