@@ -1,0 +1,25 @@
+version: 2.1
+
+executors:
+  python:
+    docker:
+      - image: circleci/python:2.7.13
+    working_directory: ~/repo
+
+jobs:
+  test:
+    executor: python
+    steps:
+      - checkout
+      - run: pip install virtualenv
+      - run: virtualenv -p python2.7 --no-site-packages --distribute ~/.virtualenvs/aurproxy
+      - run: source ~/.virtualenvs/aurproxy/bin/activate
+      - run: pip install -r requirements.txt
+      - run: pip install -r requirements_dev.txt
+      - run: nosetests --all-modules --where ./tellapart --with-coverage --cover-package=tellapart.aurproxy --cover-inclusive
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
