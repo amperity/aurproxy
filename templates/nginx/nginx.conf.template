@@ -148,7 +148,7 @@ http {
         location {{location}} {
             {% if route.endpoints %}
             proxy_next_upstream off;
-            proxy_pass http://{{ server.slug }}{{ route.slug }};
+            proxy_pass http://{{ server.slug }}{{ route.slug }}{{ route.proxy_path or "" }};
             {% else %}
             # No endpoints found for {{ server.slug }}{{ route.slug }}
             access_log on;
