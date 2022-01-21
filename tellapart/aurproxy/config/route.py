@@ -16,10 +16,12 @@ class ProxyRoute(object):
   def __init__(self,
                locations,
                empty_endpoint_status_code,
-               source_group_manager):
+               source_group_manager,
+               proxy_path):
     self._locations = locations
     self._empty_endpoint_status_code = empty_endpoint_status_code
     self._source_group_manager = source_group_manager
+    self._proxy_path = proxy_path
 
   @property
   def blueprints(self):
@@ -36,6 +38,10 @@ class ProxyRoute(object):
   @property
   def empty_endpoint_status_code(self):
     return self._empty_endpoint_status_code
+
+  @property
+  def proxy_path(self):
+    return self._proxy_path
 
   @property
   def slug(self):
