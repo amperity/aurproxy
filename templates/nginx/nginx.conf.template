@@ -57,6 +57,12 @@ http {
     # From http://lxr.nginx.org/source/src/http/ngx_http_special_response.c
     error_page 400 401 402 403 404 405 406 408 409 410 411 412 413 414 415 416 494 495 496 497 500 501 502 503 504 507 /aurproxy_error.html;
 
+    {% if context.ratelimit_zones %}
+    {% for zone in context.ratelimit_zones %}
+    limit_req_zone {{ zone.key | default('$binary_remote_addr') }} zone={{ zone.name }}:{{ zone.size | default('10m') }} rate={{ zone.rate }}r/s;
+    {%- endfor %}
+    {%- endif %}
+
     {% if stats_port %}
     server {
         listen {{ stats_port }};
@@ -148,6 +154,9 @@ http {
         {% for route in server.routes %}
         {% for location in route.locations %}
         location {{location}} {
+            {% if route.ratelimit_zone %}
+            limit_req zone={{ route.ratelimit_zone }}{% if route.ratelimit_burst %} burst={{ route.ratelimit_burst }}{% endif %}{% if route.ratelimit_delay %} delay={{ route.ratelimit_delay }}{% endif %}{% if route.ratelimit_nodelay %} nodelay{% endif %};
+            {% endif %}
             {% if route.endpoints %}
             proxy_next_upstream off;
             proxy_pass http://{{ server.slug }}{{ route.slug }}{{ route.proxy_path or "" }};
