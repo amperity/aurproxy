@@ -1,6 +1,6 @@
 # Newer python base images may break gevent.
 # See https://github.com/docker-library/python/issues/29#issuecomment-70727289
-FROM ubuntu:xenial
+FROM --platform=linux/amd64 ubuntu:xenial
 MAINTAINER colin@amperity.com
 
 
