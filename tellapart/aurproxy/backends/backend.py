@@ -131,11 +131,28 @@ class ProxyBackend(object):
                                               self._signal_update_fn,)
     proxy_path = self._load_config_item('proxy_path', route, required=False)
 
+    ratelimit = self._load_config_item('ratelimit', route, required=False)
+    proxy_ratelimit = self._load_proxy_ratelimit(ratelimit) if ratelimit else None
+
     return ProxyRoute(
         locations,
         empty_endpoint_status_code,
         source_group_manager,
-        proxy_path)
+        proxy_path,
+        proxy_ratelimit)
+
+  def _load_proxy_ratelimit(self, ratelimit):
+    zone = self._load_config_item('zone', ratelimit, required=True)
+    burst = self._load_config_item('burst', ratelimit, required=False)
+    delay = self._load_config_item('delay', ratelimit, required=False)
+    nodelay = self._load_config_item('nodelay', ratelimit, required=False, default=False)
+    status = self._load_config_item('status', ratelimit, required=False)
+    return ProxyRatelimit(
+        zone,
+        burst,
+        delay,
+        nodelay,
+        status)
 
   def _load_proxy_sources(self, sources):
     proxy_sources = []
