@@ -17,11 +17,17 @@ class ProxyRoute(object):
                locations,
                empty_endpoint_status_code,
                source_group_manager,
-               proxy_path):
+               proxy_path,
+               ratelimit=None):
     self._locations = locations
     self._empty_endpoint_status_code = empty_endpoint_status_code
     self._source_group_manager = source_group_manager
     self._proxy_path = proxy_path
+    self._ratelimit = ratelimit
+
+  @property
+  def slug(self):
+    return self._source_group_manager.slug
 
   @property
   def blueprints(self):
@@ -44,8 +50,42 @@ class ProxyRoute(object):
     return self._proxy_path
 
   @property
-  def slug(self):
-    return self._source_group_manager.slug
+  def ratelimit(self):
+    return self._ratelimit
 
   def start(self, weight_adjustment_start):
     self._source_group_manager.start(weight_adjustment_start)
+
+
+class ProxyRatelimit(object):
+  def __init__(self,
+               zone,
+               burst=None,
+               delay=None,
+               nodelay=False,
+               status=None):
+    self._zone = zone
+    self._burst = burst
+    self._delay = delay
+    self._nodelay = nodelay
+    self._status = status
+
+  @property
+  def zone(self):
+    return self._zone
+
+  @property
+  def burst(self):
+    return self._burst
+
+  @property
+  def delay(self):
+    return self._delay
+
+  @property
+  def nodelay(self):
+    return self._nodelay
+
+  @property
+  def status(self):
+    return self._status
