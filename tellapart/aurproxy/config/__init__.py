@@ -16,6 +16,8 @@ from .endpoint import (
   ProxyEndpoint,
   ShareEndpoint,
   SourceEndpoint)
-from .route import ProxyRoute
+from .route import (
+  ProxyRoute,
+  ProxyRatelimit)
 from .server import ProxyServer
 from .stream import ProxyStream
