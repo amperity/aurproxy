@@ -22,6 +22,7 @@ import itertools
 
 from tellapart.aurproxy.config import (
   ProxyRoute,
+  ProxyRatelimit,
   ProxyServer,
   ProxyStream)
 from tellapart.aurproxy.exception import AurProxyConfigException
