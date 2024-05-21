@@ -156,7 +156,7 @@ http {
         location {{location}} {
             {% if route.ratelimit %}
             limit_req zone={{ route.ratelimit.zone }}{% if route.ratelimit.burst %} burst={{ route.ratelimit.burst }}{% endif %}{% if route.ratelimit.delay %} delay={{ route.ratelimit.delay }}{% endif %}{% if route.ratelimit.nodelay %} nodelay{% endif %};
-            limit_req_status {{ route.ratelimit.status | default(429) }};
+            limit_req_status {{ route.ratelimit.status if route.ratelimit.status else 429 }};
             {% endif %}
             {% if route.endpoints %}
             proxy_next_upstream off;
