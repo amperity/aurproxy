@@ -62,13 +62,16 @@ class ShareEndpoint(AuditableEndpointBase):
 
 class SourceEndpoint(EndpointBase):
   def __unicode__(self):
-    return '{0}:{1}'.format(self._host, self.port)
+    unicode = '{0}:{1}'.format(self._host, self.port)
+    if 'name' in self.context:
+        unicode = '{0} ({1})'.format(unicode, self.context['name'])
+    return unicode
 
   def __hash__(self):
     return int(hashlib.md5(self.__unicode__()).hexdigest(), 16)
 
   def __eq__(self, other):
     if self.host == other.host and self.port == other.port:
-      return True
+      return self._context.get('name', None) == other.context.get('name', None)
     else:
       return False
