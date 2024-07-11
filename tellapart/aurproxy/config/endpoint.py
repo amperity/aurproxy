@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import hashlib
-
 class EndpointBase(object):
   def __init__(self, host, port, context=None):
     self._host = host
@@ -61,17 +59,14 @@ class ShareEndpoint(AuditableEndpointBase):
     return self._share
 
 class SourceEndpoint(EndpointBase):
-  def __unicode__(self):
-    unicode = '{0}:{1}'.format(self._host, self.port)
-    if 'name' in self.context:
-        unicode = '{0} ({1})'.format(unicode, self.context['name'])
-    return unicode
+  @property
+  def _hash_key(self):
+    return (self.host,
+            self.port,
+            self.context.get('name'))
 
   def __hash__(self):
-    return int(hashlib.md5(self.__unicode__()).hexdigest(), 16)
+    return hash(self._hash_key)
 
   def __eq__(self, other):
-    if self.host == other.host and self.port == other.port:
-      return self._context.get('name', None) == other.context.get('name', None)
-    else:
-      return False
+    return self._hash_key == other._hash_key
