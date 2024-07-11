@@ -55,9 +55,10 @@ class ProxySource(object):
 
   def add(self, endpoint):
     if endpoint not in self._endpoints:
-      logger.info('Adding endpoint: %(host)s:%(port)s',
+      logger.info('Adding endpoint: %(host)s:%(port)s %(ctx)s',
                   {'host': endpoint.host,
-                   'port': endpoint.port})
+                   'port': endpoint.port,
+                   'ctx': endpoint.context})
       self._endpoints.add(endpoint)
       self._execute_callbacks(callbacks=self._on_add_fns,
                               source=self,
@@ -65,15 +66,17 @@ class ProxySource(object):
       if self._signal_update_fn:
         self._signal_update_fn()
     else:
-      logger.info('Not adding endpoint - already known. %(host)s:%(port)s',
+      logger.info('Not adding endpoint - already known. %(host)s:%(port)s %(ctx)s',
                   {'host': endpoint.host,
-                   'port': endpoint.port})
+                   'port': endpoint.port,
+                   'ctx': endpoint.context})
 
   def remove(self, endpoint):
     if endpoint in self._endpoints:
-      logger.info('Removing endpoint: %(host)s:%(port)s',
+      logger.info('Removing endpoint: %(host)s:%(port)s %(ctx)s',
                   {'host': endpoint.host,
-                   'port': endpoint.port})
+                   'port': endpoint.port,
+                   'ctx': endpoint.context})
       self._endpoints.remove(endpoint)
       self._execute_callbacks(callbacks=self._on_remove_fns,
                               source=self,
@@ -81,9 +84,10 @@ class ProxySource(object):
       if self._signal_update_fn:
         self._signal_update_fn()
     else:
-      logger.info('Not removing endpoint - not known. %(host)s:%(port)s',
+      logger.info('Not removing endpoint - not known. %(host)s:%(port)s %(ctx)s',
                   {'host': endpoint.host,
-                   'port': endpoint.port})
+                   'port': endpoint.port,
+                   'ctx': endpoint.context})
 
   def register_on_add(self, fn):
     self._on_add_fns.append(fn)

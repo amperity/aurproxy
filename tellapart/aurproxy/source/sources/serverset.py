@@ -83,7 +83,8 @@ class ServerSetSource(ProxySource):
       port_map[k] = v.port
     return SourceEndpoint(host=ep.host,
                           port=ep.port,
-                          context={'port_map': port_map})
+                          context={'port_map': port_map,
+                                   'name': service_instance.name})
 
   def _get_kazoo_client(self):
     kc = KazooClient(
