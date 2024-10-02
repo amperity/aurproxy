@@ -15,7 +15,7 @@ jobs:
           name: "Install venv and run tests"
           command: |
             pip install virtualenv
-            virtualenv -p python2.7 --no-site-packages --distribute ~/.virtualenvs/aurproxy
+            virtualenv -p python2.7 ~/.virtualenvs/aurproxy
             source ~/.virtualenvs/aurproxy/bin/activate
             pip install -r requirements.txt
             pip install -r requirements_dev.txt
