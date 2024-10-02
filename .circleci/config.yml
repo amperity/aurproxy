@@ -3,7 +3,7 @@ version: 2.1
 executors:
   python:
     docker:
-      - image: circleci/python:2.7.13
+      - image: cimg/python:2.7.18
     working_directory: ~/repo
 
 jobs:
