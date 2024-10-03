@@ -69,4 +69,4 @@ class SourceEndpoint(EndpointBase):
     return hash(self._hash_key)
 
   def __eq__(self, other):
-    self.__hash__ == other.__hash__
+    return self.host == other.host and self.port == other.port and self.context.get('name') == other.context.get('name')
