@@ -309,7 +309,7 @@ class AzureGatewaySelfRegisterer(AzureRegisterer):
     if not vm:
         logger.warn('no vm to register!')
         return False
-    bp = self._find_backend_pool(lb, None)
+    bp = self._find_backend_pool(lb, 'aurora')
     match = self._match_ip_config(vm)
     if not match or not bp:
         logger.warn('failed to find nic without pooling ip config for this vm!')
